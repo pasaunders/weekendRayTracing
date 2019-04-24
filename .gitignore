@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+#Test Pictures
+*.ppm
+
+# Visual studio
+.vscode
