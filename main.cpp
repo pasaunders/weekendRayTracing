@@ -1,10 +1,12 @@
 #include <iostream>
+#include <vector>
+#include <memory>
 #include "sphere.h"
 #include "hitable_list.h"
 #include "float.h"
 
 //TODO: refactor to use smart pointers
-vec3 color(const ray& r, hitable *world) {
+vec3 color(const ray& r, std::unique_ptr<hitable> &world) {
     hit_record rec;
     if (world->hit(r, 0.0, FLT_MAX, rec)) {
         return 0.5*vec3(rec.normal.x()+1, rec.normal.y()+1, rec.normal.z()+1);
@@ -24,10 +26,10 @@ int main() {
     vec3 horizontal(4.0, 0.0, 0.0);
     vec3 vertical(0.0, 2.0, 0.0);
     vec3 origin(0.0, 0.0, 0.0);
-    hitable *list[2];                                   //TODO: refactor for smart pointers
-    list[0] = new sphere(vec3(0, 0, -1), 0.5);          //TODO: refactor for smart pointers
-    list[1] = new sphere(vec3(0, -100.5, -1), 100);     //TODO: refactor for smart pointers
-    hitable *world = new hitable_list(list, 2);         //TODO: refactor for smart pointers
+    std::vector<std::unique_ptr<hitable>> list(2);
+    list[0] = std::make_unique<sphere>(vec3(0, 0, -1), 0.5);
+    list[1] = std::make_unique<sphere>(vec3(0, -100.5, -1), 100);
+    std::unique_ptr<hitable> world(new hitable_list(std::move(list), list.size()));
     for(int j = ny-1; j >=0 ; j--) {
         for(int i = 0; i < nx; i++) {
             float u = float(i) / float(nx);
@@ -43,4 +45,5 @@ int main() {
             std::cout << ir << " " << ig << " " << ib << "\n";
         }
     }
+    return 0;
 }

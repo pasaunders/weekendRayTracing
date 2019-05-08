@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "hitable.h"
 
 
@@ -9,9 +10,9 @@ private:
     /* data */
 public:
     hitable_list() { }
-    hitable_list(hitable **l, int n) {list = l; list_size = n; }
+    hitable_list(std::vector<std::unique_ptr<hitable>> l, int n) {list = std::move(l); list_size = n; }
     virtual bool hit(const ray& r, float tmin, float tmax, hit_record& rec) const;
-    hitable **list;
+    std::vector<std::unique_ptr<hitable>> list;
     int list_size;
     ~hitable_list() { }
 };
