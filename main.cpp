@@ -6,7 +6,6 @@
 #include "hitable_list.h"
 
 vec3 color(const ray& r, std::unique_ptr<hitable> &world) {
-// vec3 color(const ray&r, hitable *world) {
     hit_record rec;
     if (world->hit(r, 0.0, INFINITY, rec)) {
         return 0.5*vec3(rec.normal.x()+1, rec.normal.y()+1, rec.normal.z()+1);
@@ -30,10 +29,6 @@ int main() {
     list[0] = std::make_unique<sphere>(vec3(0.0, 0.0, -1), 0.5);
     list[1] = std::make_unique<sphere>(vec3(0.0, -100.5, -1.0), 100);
     std::unique_ptr<hitable> world = std::make_unique<hitable_list>(std::move(list), list.size());
-    // hitable *list[2];
-    // list[0] = new sphere(vec3(0,0,1), 0.5);
-    // list[1] = new sphere(vec3(0.0, -100.5, -1), 100);
-    // hitable *world = new hitable_list(list,2);
     for(int j = ny-1; j >=0 ; j--) {
         for(int i = 0; i < nx; i++) {
             float u = float(i) / float(nx);
