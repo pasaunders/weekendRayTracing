@@ -8,7 +8,7 @@
 vec3 color(const ray& r, std::unique_ptr<hitable> &world) {
 // vec3 color(const ray&r, hitable *world) {
     hit_record rec;
-    if (world->hit(r, 0.0, FLT_MAX, rec)) {
+    if (world->hit(r, 0.0, INFINITY, rec)) {
         return 0.5*vec3(rec.normal.x()+1, rec.normal.y()+1, rec.normal.z()+1);
     } else
     {
@@ -27,8 +27,8 @@ int main() {
     vec3 vertical(0.0, 2.0, 0.0);
     vec3 origin(0.0, 0.0, 0.0);
     std::vector<std::unique_ptr<hitable>> list(2);
-    list[0] = std::make_unique<sphere>(vec3(0.0, 0.0, 1.0), 0.5);
-    list[1] = std::make_unique<sphere>(vec3(0.0, 100.5, 1.0), 100);
+    list[0] = std::make_unique<sphere>(vec3(0.0, 0.0, -1), 0.5);
+    list[1] = std::make_unique<sphere>(vec3(0.0, -100.5, -1.0), 100);
     std::unique_ptr<hitable> world = std::make_unique<hitable_list>(std::move(list), list.size());
     // hitable *list[2];
     // list[0] = new sphere(vec3(0,0,1), 0.5);
@@ -49,5 +49,5 @@ int main() {
             std::cout << ir << " " << ig << " " << ib << "\n";
         }
     }
-    //return 0;
+    return 0;
 }
