@@ -38,8 +38,8 @@ int main() {
     std::vector<std::unique_ptr<hitable>> list(4);
     list[0] = std::make_unique<sphere>(vec3(0.0, 0.0, -1), 0.5, std::make_shared<lambertian>(vec3(0.8, 0.3, 0.3)));
     list[1] = std::make_unique<sphere>(vec3(0.0, -100.5, -1.0), 100, std::make_shared<lambertian>(vec3(0.8, 0.8, 0.0)));
-    list[2] = std::make_unique<sphere>(vec3(1.0, 0.0, -1), 0.5, std::make_shared<metal>(vec3(0.8, 0.6, 0.2)));
-    list[3] = std::make_unique<sphere>(vec3(-1.0, 0.0, -1), 0.5, std::make_shared<metal>(vec3(0.8, 0.8, 0.8)));
+    list[2] = std::make_unique<sphere>(vec3(1.0, 0.0, -1), 0.5, std::make_shared<metal>(vec3(0.8, 0.6, 0.2), 1.0));
+    list[3] = std::make_unique<sphere>(vec3(-1.0, 0.0, -1), 0.5, std::make_shared<metal>(vec3(0.8, 0.8, 0.8), 0.3));
     std::unique_ptr<hitable> world = std::make_unique<hitable_list>(std::move(list), list.size());
     camera cam;
     for(int j = ny-1; j >=0 ; j--) {
