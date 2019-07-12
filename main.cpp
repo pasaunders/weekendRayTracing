@@ -35,13 +35,14 @@ int main() {
     int ny = 100;
     int ns = 100;
     std::cout << "P3\n" << nx << " " << ny << "\n255\n";
-    std::vector<std::unique_ptr<hitable>> list(4);
-    list[0] = std::make_unique<sphere>(vec3(0.0, 0.0, -1), 0.5, std::make_shared<lambertian>(vec3(0.8, 0.3, 0.3)));
+    std::vector<std::unique_ptr<hitable>> list(5);
+    list[0] = std::make_unique<sphere>(vec3(0.0, 0.0, -1), 0.5, std::make_shared<lambertian>(vec3(0.1, 0.2, 0.5)));
     list[1] = std::make_unique<sphere>(vec3(0.0, -100.5, -1.0), 100, std::make_shared<lambertian>(vec3(0.8, 0.8, 0.0)));
-    list[2] = std::make_unique<sphere>(vec3(1.0, 0.0, -1), 0.5, std::make_shared<metal>(vec3(0.8, 0.6, 0.2), 1.0));
-    list[3] = std::make_unique<sphere>(vec3(-1.0, 0.0, -1), 0.5, std::make_shared<metal>(vec3(0.8, 0.8, 0.8), 0.3));
+    list[2] = std::make_unique<sphere>(vec3(1.0, 0.0, -1), 0.5, std::make_shared<metal>(vec3(0.8, 0.6, 0.2), 0.0));
+    list[3] = std::make_unique<sphere>(vec3(-1.0, 0.0, -1), 0.5, std::make_shared<dielectric>(1.5));
+    list[4] = std::make_unique<sphere>(vec3(-1, 0, 1), -0.45, std::make_shared<dielectric>(1.5));
     std::unique_ptr<hitable> world = std::make_unique<hitable_list>(std::move(list), list.size());
-    camera cam;
+    camera cam(vec3(-2,2,1), vec3(0,0,-1), vec3(0,1,0), 100, float(nx)/float(ny));
     for(int j = ny-1; j >=0 ; j--) {
         for(int i = 0; i < nx; i++) {
             vec3 col(0, 0, 0);
