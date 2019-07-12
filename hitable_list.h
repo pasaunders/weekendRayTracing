@@ -1,11 +1,10 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include "hitable.h"
 
 class hitable_list : public hitable
 {
-private:
-    /* data */
 public:
     hitable_list() { }
     hitable_list(std::vector<std::unique_ptr<hitable>> l, int n) {list = std::move(l); list_size = n; }
